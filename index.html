@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b46"><meta name="description" content="Interactive NCLEX and nursing exam practice.">
+  <title>NCLEX-RN Exam Practice — v1.0</title><link rel="stylesheet" href="styles.css">
+  <script defer src="config.js"></script><script defer src="questions.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<header class="site-header"><a class="brand" href="#home" aria-label="NCLEX-RN Exam Practice home"><span class="brand-mark">N+</span><span><strong>NCLEX-RN</strong><small>EXAM PRACTICE</small></span></a><span class="header-tag">PRACTISE · REFLECT · GROW</span></header>
+<main class="container">
+<section id="home" class="screen hero-screen">
+  <div class="eyebrow">NCLEX &amp; NURSING EXAM PRACTICE</div><h1>Build confidence.<br><span>One question at a time.</span></h1>
+  <p class="lead">A focused practice experience to help nursing students review clinical priorities, safety, communication and patient care.</p>
+  <div class="hero-actions"><button class="button primary" id="start-level1">Start free practice <span aria-hidden="true">→</span></button><a class="button secondary" href="#offers">Explore study resources</a></div>
+  <div class="feature-grid"><article><b>01</b><h3>Free practice</h3><p>20 questions to start your review.</p></article><article><b>02</b><h3>Track your progress</h3><p>Review your score at the end of each level.</p></article><article><b>03</b><h3>Learn together</h3><p>Share your practice app with your study group.</p></article></div>
+  <p class="disclaimer">Independent educational practice resource. Not an official NCLEX examination or endorsement.</p>
+</section>
+<section id="quiz" class="screen hidden" aria-live="polite">
+  <div class="quiz-top"><button class="text-button" id="exit-quiz">← Exit practice</button><span id="level-label" class="pill">LEVEL 1</span></div>
+  <div class="progress-meta"><span id="question-counter">Question 1 of 20</span><span id="progress-percent">5%</span></div><div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+  <div class="question-card"><div class="eyebrow">SELECT ONE ANSWER</div><h2 id="question-text"></h2><form id="answer-form"><div id="options" class="options"></div><p id="answer-error" class="error hidden" role="alert">Choose an answer before continuing.</p><div class="question-actions"><button type="button" class="button secondary" id="previous-question">Previous</button><button type="submit" class="button primary" id="next-question">Next question →</button></div></form></div>
+  <p class="small-note">Your selections are recorded on this device for this practice session.</p>
+</section>
+<section id="results" class="screen hidden" aria-live="polite">
+  <div class="eyebrow">PRACTICE COMPLETE</div><h1 id="results-title">Your results</h1><p class="lead" id="results-message"></p>
+  <div class="score-card"><div class="score-ring"><strong id="score-percent">0%</strong><span>score</span></div><div class="score-details"><div><strong id="correct-count">0</strong><span>Correct answers</span></div><div><strong id="incorrect-count">0</strong><span>Incorrect answers</span></div><div><strong id="answered-count">0/20</strong><span>Answered</span></div></div></div>
+  <div id="unlock-card" class="unlock-card hidden"><div><div class="eyebrow">NEXT STEP</div><h2>Ready for Level 2?</h2><p id="unlock-message"></p></div><button class="button primary" id="start-level2">Start Level 2 →</button></div>
+  <div class="learn-card"><div class="learn-icon">✦</div><div><div class="eyebrow">LEARN TOGETHER</div><h2>Your progress can inspire a colleague</h2><p>Celebrate the effort you put in, then invite a classmate or study group to practise too. Every shared question can start a useful conversation, strengthen understanding, and help future nurses grow together.</p><p class="gentle-note">Share your score and the practice app—not private information. Everyone learns at a different pace; encouragement matters more than comparison.</p><button class="button primary" id="share-result">Celebrate &amp; share my result</button><p id="share-status" class="small-note" role="status"></p></div></div>
+  <div class="review-section"><h2>Review your answers</h2><div id="answer-review"></div></div>
+  <div class="hero-actions"><button class="button secondary" id="retry-level">Try this level again</button><a class="button secondary" href="#offers">Explore study resources</a></div>
+</section>
+<section id="offers" class="offers-section"><div class="eyebrow">KEEP LEARNING</div><h2>Study resources for your next step</h2><p class="lead">Choose the resource that fits your study routine.</p><div id="offer-grid" class="offer-grid"></div></section>
+</main>
+<footer><span>NCLEX-RN Exam Practice — v1.0</span><span>Independent educational practice · Not an official exam</span></footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body></html>

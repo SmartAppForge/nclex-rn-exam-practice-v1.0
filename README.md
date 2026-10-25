@@ -9,6 +9,10 @@ A standalone, responsive HTML/CSS/JavaScript educational practice app for GitHub
 - `config.js` — app identity, Level 2 unlock threshold, and all four commercial links
 - `questions.js` — original 40-question bank
 - `app.js` — navigation, answer state, scoring, review, sharing, and unlock logic
+
+## Updated results-page resource banner
+
+The four colorful commercial resource cards now appear inside the Results screen after a practice level is completed. They are no longer rendered as a shared section on the home or quiz screens. The banner uses blue, green, orange, and purple cards with visual arrows and responsive layouts for desktop, tablet, and mobile. The existing result calculation, question bank, unlock threshold, and sharing behavior are retained.
 - `TEST-CHECKLIST.md` — validation checklist
 - `TEST-RESULTS.md` — recorded checks and outstanding manual tests
 

@@ -15,9 +15,28 @@
   $('previous-question').addEventListener('click',()=>{if(index>0){index--;renderQuestion();}});$('exit-quiz').addEventListener('click',()=>{if(confirm('Exit this practice session? Your current session answers will be cleared.'))showScreen('home');});
   function finishLevel(){const list=levelQuestions();const correct=list.filter(q=>answers[q.id]===q.answer).length;const answered=list.filter(q=>answers[q.id]).length;const incorrect=answered-correct;const percent=Math.round(correct/list.length*100);lastResult={level,correct,incorrect,answered,total:list.length,percent};if(level===1){try{localStorage.setItem('nclexLevel1Result',JSON.stringify(lastResult));localStorage.setItem('nclexLevel1Passed',String(percent>=cfg.unlock.minimumPercent));}catch(e){}}renderResults(list,lastResult);showScreen('results');}
   function renderResults(list,r){$('results-title').textContent=`Level ${r.level} complete`; $('results-message').textContent=r.percent>=cfg.unlock.minimumPercent?'Good work — take a moment to review what you know and where you can grow.':'Thank you for practising. Review your answers and use what you learned to guide your next study session.';$('score-percent').textContent=`${r.percent}%`;$('correct-count').textContent=r.correct;$('incorrect-count').textContent=r.incorrect;$('answered-count').textContent=`${r.answered}/${r.total}`;
-    const uc=$('unlock-card');if(r.level===1){uc.classList.remove('hidden');const passed=r.percent>=cfg.unlock.minimumPercent; $('unlock-message').textContent=passed?`You reached the configured ${cfg.unlock.minimumPercent}% practice threshold. Level 2 is available on this device.`:`Level 2 unlocks at ${cfg.unlock.minimumPercent}% on Level 1. You can retry Level 1 to practise again.`;$('start-level2').disabled=!passed;$('start-level2').style.opacity=passed?'1':'.5';}else uc.classList.add('hidden');
+    const uc=$('unlock-card');
+    if(r.level===1){
+      uc.classList.remove('hidden');
+      const passed=r.percent>=cfg.unlock.minimumPercent;
+      $('unlock-message').textContent=passed
+        ? `You reached the configured ${cfg.unlock.minimumPercent}% practice threshold. Level 2 is available on this device.`
+        : `Level 2 unlocks at ${cfg.unlock.minimumPercent}% on Level 1. Retry Level 1 to improve your score and unlock the next level.`;
+      const nextButton=$('start-level2');
+      nextButton.disabled=false;
+      nextButton.style.opacity='1';
+      nextButton.textContent=passed?'Start Level 2 →':'Retry Level 1 ↻';
+      nextButton.setAttribute('aria-label', passed?'Start Level 2':'Retry Level 1');
+      nextButton.dataset.action=passed?'level2':'retry';
+    }else uc.classList.add('hidden');
     $('answer-review').innerHTML=list.map((q,i)=>{const chosen=answers[q.id];const ok=chosen===q.answer;return `<article class="review-item"><h3>${i+1}. ${escapeHTML(q.question)}</h3><p class="${ok?'correct':'incorrect'}"><strong>${ok?'Correct':'Incorrect'}</strong> · Your answer: ${chosen?chosen+' — '+escapeHTML(q.options[chosen]):'Not answered'}</p><p><strong>Correct answer: ${q.answer}</strong> — ${escapeHTML(q.options[q.answer])}</p></article>`;}).join('');$('share-status').textContent='';}
-  $('start-level1').addEventListener('click',()=>start(1));$('start-level2').addEventListener('click',()=>{if(lastResult&&lastResult.level===1&&lastResult.percent>=cfg.unlock.minimumPercent)start(2);else toast('Complete Level 1 with the required score first.');});$('retry-level').addEventListener('click',()=>start(level));
+  $('start-level1').addEventListener('click',()=>start(1));
+  $('start-level2').addEventListener('click',()=>{
+    const passed=lastResult&&lastResult.level===1&&lastResult.percent>=cfg.unlock.minimumPercent;
+    if($('start-level2').dataset.action==='retry'||!passed){start(1);return;}
+    start(2);
+  });
+  $('retry-level').addEventListener('click',()=>start(level));
   $('share-result').addEventListener('click',async()=>{if(!lastResult)return;const shareText=`I completed Level ${lastResult.level} of NCLEX-RN Exam Practice with ${lastResult.correct}/${lastResult.total} correct (${lastResult.percent}%). Practise and learn together!`;const shareData={title:cfg.appName,text:shareText,url:location.href.split('#')[0]};try{if(navigator.share){await navigator.share(shareData);$('share-status').textContent='Thanks for sharing your practice progress.';}else if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(`${shareText}
 ${shareData.url}`);$('share-status').textContent='Result and app link copied. You can now share them with your study group.';}else{const fallback=prompt('Copy and share this text:',`${shareText}
 ${shareData.url}`);$('share-status').textContent=fallback===null?'Sharing cancelled.':'Copy the text above to share with a classmate.';}}catch(err){if(err.name!=='AbortError'){$('share-status').textContent='Sharing was unavailable. You can copy the app address from your browser to share it.';}}});
